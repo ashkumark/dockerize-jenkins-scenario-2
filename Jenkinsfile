@@ -36,4 +36,5 @@ pipeline {
             	sh 'mvn test -Dcucumber.filter.tags="@UI"'
             }       
         }
+	}
 }
