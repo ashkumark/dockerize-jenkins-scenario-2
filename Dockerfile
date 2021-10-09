@@ -33,7 +33,18 @@ RUN chown -R jenkins:jenkins /chromedriver
 RUN mkdir /var/log/jenkins
 RUN chown -R  jenkins:jenkins /var/log/jenkins
 
+#Docker 
+RUN apt-get update && apt-get install -y apt-transport-https ca-certificates curl software-properties-common && \
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - && \
+    apt-key fingerprint 0EBFCD88 && \
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+   
+RUN apt-get update -y && \
+    apt-cache policy docker-ce	&& \
+    apt-get install -y docker-ce docker-ce-cli containerd.io
+ 
 USER jenkins
+
   
 # Expose ports
 EXPOSE 5901
