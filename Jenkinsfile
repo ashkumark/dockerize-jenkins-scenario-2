@@ -27,6 +27,7 @@ pipeline {
         stage('Docker Teardown') {
             steps {
                 /* Tear down all containers */
+                sh 'docker stop $(docker ps -aq)'
                 sh 'docker rm $(docker ps -aq)'
             }
         }
