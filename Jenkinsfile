@@ -1,6 +1,5 @@
 pipeline {
     agent any
-    //agent { label 'jenkins-agent' }
     
     environment {
     	dockerImage = ''
@@ -25,16 +24,17 @@ pipeline {
             	sh 'mvn test -Dcucumber.filter.tags="@API"'
             }
         }
-        stage('UI Automation') {
-        	agent {
-                docker {
-                    image 'ashkumarkdocker/docker-e2e-automation'
-                    args '-v $HOME/.m2:/root/.m2'
-                }
-            }
+        stage('Docker Teardown') {
             steps {
-            	sh 'mvn test -Dcucumber.filter.tags="@UI"'
-            }       
+                /* Tear down all containers */
+                sh 'docker rm $(docker ps -aq)'
+            }
         }
 	}
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
 }
